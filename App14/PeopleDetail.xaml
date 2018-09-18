@@ -1,0 +1,115 @@
+﻿<Page
+    x:Class="PeopleTracker.PeopleDetail"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PeopleTracker"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid HorizontalAlignment="Left" Margin="50,50,0,0" VerticalAlignment="Top">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="24*"/>
+            <ColumnDefinition Width="7*"/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="DataGrid" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="3,3,3,3" CornerRadius="5,5,5,5" BorderBrush="SteelBlue" Background="LightSteelBlue" Width="841">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="225"/>
+                <ColumnDefinition Width="110"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="DisplayName1" HorizontalAlignment="Center" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="Display" Grid.Row="1"/>
+            <TextBox x:Name="First_Name1" HorizontalAlignment="Center" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="First" Grid.Row="1" Grid.Column="1"/>
+            <TextBox x:Name="Last_Name1" HorizontalAlignment="Center" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="Last" Grid.Row="1" Grid.Column="2"/>
+            <CheckBox x:Name="OpCheck1" Content="Operator" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Grid.Column="4" Width="75" MinWidth="100"/>
+            <TextBlock HorizontalAlignment="Center" Text="Display Name" TextWrapping="Wrap" VerticalAlignment="Center"/>
+            <TextBlock HorizontalAlignment="Center" Text="First Name" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="1"/>
+            <Button Content="Save Edit" HorizontalAlignment="Center" VerticalAlignment="Center" Click="SaveEdit" Grid.Column="5" Grid.Row="1" Margin="0,0,0,10"/>
+            <TextBlock HorizontalAlignment="Center" Text="Last Name" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="2"/>
+            <DatePicker x:Name="Date_Hired" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" MinWidth="100" Grid.Row="1" Grid.Column="3"/>
+            <TextBlock HorizontalAlignment="Center" Text="Date Hired" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="3"/>
+            <Button Content="Back To Home" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Column="5" Padding="0,0,0,0" Height="30" Click="BackToMain" Margin="0,8,0,0"/>
+            <Button Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="6" Padding="0,0,0,0" Height="30" Click="AddPerson" Margin="35,8,0,0"/>
+            <Border x:Name="Trash" HorizontalAlignment="Right"  Grid.Column="6" Grid.Row="1" AllowDrop="True" VerticalAlignment="Top" Width="45" BorderBrush="SteelBlue" Background="LightSteelBlue" BorderThickness="3,3,3,3" CornerRadius="5,5,5,5" Height="45" Margin="0,0,27,0" >
+                <Image x:Name="drop" Source="Assets/full-trash.png" AllowDrop="True" HorizontalAlignment="Center" VerticalAlignment="Center" Width="35" Height="35" Margin="-20,0,-20,0" FocusVisualPrimaryBrush="#FF010000"/>
+            </Border>
+
+        </Grid>
+        <Grid x:Name="BigGrid" HorizontalAlignment="Left" Margin="0,144,0,0" VerticalAlignment="Top" CornerRadius="5,5,5,5" BorderThickness="3,3,3,3" BorderBrush="SteelBlue" Background="LightSteelBlue" Height="356" Width="505">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="300"/>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="25"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="25"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="25"/>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            <ScrollViewer x:Name="ElderScroller" Grid.ColumnSpan="8" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Grid.Row="1" Margin="-1,0,0,0">
+                <Grid>
+                    <ListView x:Name="BigDisplayNameList" HorizontalAlignment="Left" VerticalAlignment="Center" Width="125" Margin="0,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="ass">
+                        
+                    </ListView>
+                    <ListView x:Name="BigFirstNameList" HorizontalAlignment="Left" VerticalAlignment="Center" Width="125" Margin="125,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="ass">
+                        
+                    </ListView>
+                    <ListView x:Name="BigLastNameList" HorizontalAlignment="Left" VerticalAlignment="Center" Width="125" Margin="250,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="ass">
+                        
+                    </ListView>
+                    <ListView x:Name="BigHireDateList" HorizontalAlignment="Left" VerticalAlignment="Center" Width="125" Margin="374,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="ass"/>
+                    <Border x:Name="B1" BorderBrush="SteelBlue" HorizontalAlignment="Left" Height="300" VerticalAlignment="Top" Width="125" BorderThickness="1,1,1,1" Margin="1,0,0,0"/>
+                    <Border x:Name="B2" BorderBrush="SteelBlue" HorizontalAlignment="Left" Height="300" VerticalAlignment="Top" Width="125" BorderThickness="1,1,1,1" Margin="125.5,0,0,0"/>
+                    <Border x:Name="B3" BorderBrush="SteelBlue" HorizontalAlignment="Left" Height="300" VerticalAlignment="Top" Width="125" BorderThickness="1,1,1,1" Margin="250,0,0,0"/>
+                    <Border x:Name="B4" BorderBrush="SteelBlue" HorizontalAlignment="Left" Height="300" VerticalAlignment="Top" Width="125" BorderThickness="1,1,1,1" Margin="375,0,0,0"/>
+                </Grid>
+            </ScrollViewer>
+            <Button x:Name="DisplayNameSort" Content="↑↓" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightSteelBlue" BorderThickness="1,1,1,1                     " BorderBrush="SlateBlue" Padding="0,0,0,0" Click="DisplaySorter"/>
+            <TextBlock HorizontalAlignment="Center" Text="Display Name" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="1"/>
+            <Button x:Name="FirstNameSort" Content="↑↓" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightSteelBlue" BorderThickness="1,1,1,1                     " BorderBrush="SlateBlue" Padding="0,0,0,0" Grid.Column="2" Click="FirstNameSorter"/>
+            <TextBlock HorizontalAlignment="Center" Text="First Name" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="3"/>
+            <TextBlock HorizontalAlignment="Center" Text="Last Name" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="5"/>
+            <TextBlock HorizontalAlignment="Center" Text="Hire Date" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="7"/>
+            <Button x:Name="LastNameSort" Content="↑↓" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightSteelBlue" BorderThickness="1,1,1,1" BorderBrush="SlateBlue" Padding="0,0,0,0" Grid.Column="4" Click="LastNameSorter"/>
+            <Button x:Name="HireDateSort" Content="↑↓" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightSteelBlue" BorderThickness="1,1,1,1" BorderBrush="SlateBlue" Padding="0,0,0,0" Grid.Column="6" Click="DateSorter"/>
+            <Border BorderBrush="SteelBlue" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="125" BorderThickness="1,1,1,1" Grid.ColumnSpan="2"/>
+            <Border BorderBrush="SteelBlue" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="125" BorderThickness="1,1,1,1" Grid.ColumnSpan="2" Grid.Column="2"/>
+            <Border BorderBrush="SteelBlue" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="125" BorderThickness="1,1,1,1" Grid.ColumnSpan="2" Grid.Column="4"/>
+            <Border BorderBrush="SteelBlue" HorizontalAlignment="Left" Height="50" VerticalAlignment="Top" Width="125" BorderThickness="1,1,1,1" Grid.ColumnSpan="2" Grid.Column="6"/>
+        </Grid>
+        <ComboBox x:Name="Boxes" HorizontalAlignment="Left" Margin="588,157,0,0" VerticalAlignment="Top" SelectionChanged="Boxes_SelectionChanged"/>
+        <TextBlock HorizontalAlignment="Left" Margin="539,163,0,0" Text="Line:" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Border x:Name="PressBorder" BorderBrush="SteelBlue" HorizontalAlignment="Left" Margin="539,0,0,157" VerticalAlignment="Bottom" Width="150" BorderThickness="3,3,3,3" CornerRadius="5,5,5,5" Background="LightSteelBlue" MinHeight="100" Height="149">
+            <ListView x:Name="SelectedPressList" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Height" Value="25" />
+                        <Setter Property="MinHeight" Value="25" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <!--<ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <TextBlock Text="{Binding DisplayName}"></TextBlock> 
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate> -->
+            </ListView>
+        </Border>
+
+    </Grid>
+</Page>

@@ -1,0 +1,26 @@
+﻿<ContentDialog
+    x:Class="PeopleTracker.PressDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PeopleTracker"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Edit Press"
+    PrimaryButtonText="Save"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid>
+        <StackPanel HorizontalAlignment="Left" Height="35" Margin="40,0,0,0" Orientation="Horizontal" VerticalAlignment="Top">
+            <TextBlock HorizontalAlignment="Left" Text="Edit Line Name:" TextWrapping="NoWrap" VerticalAlignment="Bottom" Height="30" TextLineBounds="TrimToBaseline" TextTrimming="None" OpticalMarginAlignment="TrimSideBearings" LineStackingStrategy="BaselineToBaseline"/>
+            <TextBox x:Name="NameBox" HorizontalAlignment="Left" Text="" VerticalAlignment="Center" Height="30" TextWrapping="NoWrap" PlaceholderText="Line Name"/>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Left" Height="35" Margin="40,40,0,0" Orientation="Horizontal" VerticalAlignment="Top" Width="195">
+            <TextBlock HorizontalAlignment="Left" Text="Edit Line Size:" TextWrapping="NoWrap" VerticalAlignment="Bottom" Height="30" TextLineBounds="TrimToBaseline" TextTrimming="None" OpticalMarginAlignment="TrimSideBearings" LineStackingStrategy="BaselineToBaseline"/>
+            <ComboBox x:Name="NumberBox" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="12,0,0,0"/>
+        </StackPanel>
+
+    </Grid>
+</ContentDialog>

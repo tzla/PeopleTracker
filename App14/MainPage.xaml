@@ -1,14 +1,35 @@
 ﻿<Page
-    x:Class="App14.MainPage"
+    x:Class="PeopleTracker.MainPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:App14"
+    xmlns:local="using:PeopleTracker"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-
+    <Grid x:Name="MikePage">
+        <Button x:Name="SortButton1" Content="↑↓" HorizontalAlignment="Left" Margin="30,291,0,0" VerticalAlignment="Top" Background="LightSteelBlue" FontWeight="Bold" FontSize="18" Height="33" Padding="0,0,0,0" BorderBrush="SteelBlue" Width="33" Click="Sorter1"/>
+        <ListView x:Name="Sources" HorizontalAlignment="Left" Margin="30,30,0,0" VerticalAlignment="Top" BorderThickness="2,2,2,2" Background="LightSteelBlue" DragItemsStarting="DragStart" CanDragItems="True" DragItemsCompleted="DragStop" Width="175" BorderBrush="SteelBlue" MaxHeight="250" MinHeight="250" Height="250">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Height" Value="20" />
+                    <Setter Property="MinHeight" Value="20" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+        <ListView x:Name="DSources" HorizontalAlignment="Left" Margin="30,350,0,0" VerticalAlignment="Top" BorderThickness="2,2,2,2" Background="LightSteelBlue" CanDragItems="True" Width="175" BorderBrush="SteelBlue" MaxHeight="197" MinHeight="200" Height="200" Grid.ColumnSpan="2" DragItemsStarting="DragStartDS" DragItemsCompleted="DragStopDS">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Height" Value="20" />
+                    <Setter Property="MinHeight" Value="20" />
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+        <Grid x:Name="piss" HorizontalAlignment="Left" Margin="225,30,0,0" VerticalAlignment="Top" />
+        <TextBlock x:Name="cocker" HorizontalAlignment="Left" Margin="905,12,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Button x:Name="SortButton2" Content="↑↓" HorizontalAlignment="Left" Margin="30,561,0,0" VerticalAlignment="Top" Background="LightSteelBlue" FontWeight="Bold" FontSize="18" Height="33" Padding="0,0,0,0" BorderBrush="SteelBlue" Width="33" Click="Sorter2"/>
+        <Button x:Name="Operator" Content="Edit Roster" HorizontalAlignment="Left" Margin="112,291,0,0" VerticalAlignment="Top" Background="LightSteelBlue" Click="EditRoster" Height="33" Width="92" BorderBrush="SteelBlue"/>
+        <Button x:Name="DieSetter" Content="Edit Roster" HorizontalAlignment="Left" Margin="112,561,0,0" VerticalAlignment="Top" Background="LightSteelBlue" Click="EditRoster2" Height="33" Width="92" BorderBrush="SteelBlue"/>
     </Grid>
 </Page>

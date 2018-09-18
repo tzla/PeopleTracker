@@ -1,0 +1,42 @@
+﻿<ContentDialog
+    x:Class="PeopleTracker.AddDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:PeopleTracker"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Add Person"
+    PrimaryButtonText="Add"
+    SecondaryButtonText="Back"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick" MaxWidth="998">
+
+    <Grid HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" MaxWidth="1000">
+        <Grid x:Name="DataGrid" HorizontalAlignment="Center" VerticalAlignment="Center" BorderThickness="3,3,3,3" CornerRadius="5,5,5,5" BorderBrush="SteelBlue" Background="LightSteelBlue">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="230"/>
+                <ColumnDefinition Width="110"/>
+                
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="DisplayName1" HorizontalAlignment="Center" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="Display" Grid.Row="1"/>
+            <TextBox x:Name="First_Name1" HorizontalAlignment="Center" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="First" Grid.Row="1" Grid.Column="1"/>
+            <TextBox x:Name="Last_Name1" HorizontalAlignment="Center" Text="" TextWrapping="Wrap" VerticalAlignment="Top" PlaceholderText="Last" Grid.Row="1" Grid.Column="2"/>
+            <CheckBox x:Name="OpCheck1" Content="Operator" HorizontalAlignment="Center" VerticalAlignment="Top" Grid.Row="1" Grid.Column="4" Width="75" MinWidth="100"/>
+            <TextBlock HorizontalAlignment="Center" Text="Display Name" TextWrapping="Wrap" VerticalAlignment="Center" SelectionChanged="TextBlock_SelectionChanged"/>
+            <TextBlock HorizontalAlignment="Center" Text="First Name" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="1"/>
+            <TextBlock HorizontalAlignment="Center" Text="Last Name" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="2"/>
+            <DatePicker x:Name="Date_Hired" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" MinWidth="100" Grid.Row="1" Grid.Column="3"/>
+            <TextBlock HorizontalAlignment="Center" Text="Date Hired" TextWrapping="Wrap" VerticalAlignment="Center" Grid.Column="3"/>
+            
+
+        </Grid>
+    </Grid>
+</ContentDialog>
