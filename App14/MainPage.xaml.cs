@@ -72,7 +72,10 @@ namespace PeopleTracker
         bool first = true; //after loading, set to false 
         bool sorter1 = true; bool sorter2 = true; //sorting state of the two source lists
         bool Load = false; //prevents loading multiple times
+
         int lastIndex;//tracks the most recent edited list
+        int dragItemLineTracker;
+        int dragItemPressTracker;
 
         //these are list initiators(temporary)
         ObservableCollection<string> ass = new ObservableCollection<string>();
@@ -124,7 +127,7 @@ namespace PeopleTracker
         }
 
         /// <summary>
-        /// Package for data operations in child programs
+        /// Package for data operations in child pages
         /// </summary>
         public class ReturnList
         {
@@ -133,6 +136,9 @@ namespace PeopleTracker
             public ObservableCollection<string> LineNameList { get; set; }
         }
 
+        /// <summary>
+        /// Main Initialization Method
+        /// </summary>
         public MainPage()
         {
             this.InitializeComponent();//loads UI
@@ -150,7 +156,10 @@ namespace PeopleTracker
             DSources.ItemsSource = setterSource;
         }//initialilzer
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        /// <summary>
+        /// Retrieves data from child pages when returning to main page
+        /// </summary>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             if (Load)
             {
@@ -182,8 +191,8 @@ namespace PeopleTracker
             GridSetup(3, 2, 13, ass5, anus2);
             GridSetup(4, 2, 14, ass5, anus2);
             first = false;
-            
         }
+
         private async void LoadFromFile()
         {
            try
@@ -451,6 +460,8 @@ namespace PeopleTracker
             newList.DragLeave += TargetDragLeave;
             newList.Drop += TargetDrop;
             newList.PointerExited += ResetSelection;
+            newList.DragItemsCompleted += DragTargetDone;
+            newList.DragItemsStarting += DragTargetStart;
             
             Style gridStyle = new Style();
             Setter thisSet = new Setter { Property = HeightProperty, Value = 25 };
@@ -488,8 +499,14 @@ namespace PeopleTracker
             }
         }//initializes lists for grid setup
 
-        private void UpdateLists()
+        private async void UpdateLists()
         {
+            if(!first)//temporary measure to trim excess off list until cause is fixed
+            {
+                try { PeopleOnPress.RemoveRange(15, PeopleOnPress.Count - 15); } catch { }
+            }
+
+
             ObservableCollection<string> updateOpList = new ObservableCollection<string>();
             List<ObservableCollection<string>> updatePressList = new List<ObservableCollection<string>>();
             foreach (People thisPerson in PeopleList)
@@ -520,7 +537,10 @@ namespace PeopleTracker
                 thisView.ItemsSource = peoplePlacer[track];
                 track++;
             }
-            if (!first) { Saver(); }
+            if (!first)
+            {
+                Saver();
+            }
             
 
         }//updates the lists
@@ -954,6 +974,45 @@ namespace PeopleTracker
             //UpdateLists;
             //this.Background = red;
         }//resets selected item in lists
+        
+        private async void  DragTargetStart(object sender, DragItemsStartingEventArgs e)
+        {
+            string item = e.Items.First().ToString();
+            
+            ListView targetList = sender as ListView;
+            String ListName = targetList.Name;
+            String[] GetName = ListName.Split('_');
+            dragItemLineTracker = Convert.ToInt16(GetName[1]);
+            dragItemPressTracker = peoplePlacer[dragItemLineTracker].IndexOf(item);
+            cocker.Text = dragItemPressTracker.ToString() + " : " + dragItemLineTracker.ToString();
+            //peoplePlacer[dragItemLineTracker].IndexOf
+
+
+
+        }
+
+
+
+
+        private async void DragTargetDone(object sender, DragItemsCompletedEventArgs e)
+        {
+            string thisItem = e.Items.First().ToString();
+            ListView thisLast = sender as ListView;
+            ListView targetList = sender as ListView;
+            String ListName = targetList.Name;
+            String[] GetName = ListName.Split('_');
+            int targetLine = Convert.ToInt16(GetName[1]);
+            int newPosition = peoplePlacer[targetLine].IndexOf(thisItem);
+            if(targetLine == dragItemLineTracker)
+            {
+                List<People> targetedList = PeopleOnPress[targetLine];
+                People movedPerson = targetedList[dragItemPressTracker];
+                targetedList.Remove(movedPerson);
+                targetedList.Insert(newPosition, movedPerson);
+                PeopleOnPress[targetLine] = targetedList;
+            }
+            UpdateLists();
+        }
 
         private async void TargetDrop(object sender, DragEventArgs e)
         {
