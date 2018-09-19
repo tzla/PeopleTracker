@@ -26,7 +26,7 @@ using System.Threading.Tasks;
 namespace PeopleTracker
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// This is main page 
     /// </summary>
     public sealed partial class MainPage : Page
     {
@@ -87,39 +87,50 @@ namespace PeopleTracker
         Style gridStyle = new Style();//saves the style for grid objects
         Grid newGrid;//currently focused grid loads here for easy manipulation
 
+        /// <summary>
+        /// Packages the info on line sizes and names for saving and loading
+        /// </summary>
         public class SaveData
         {
-            public ObservableCollection<string> myLineNames { get; set; }
-            public ObservableCollection<int> myLineSizes { get; set; }
+            public ObservableCollection<string> MyLineNames { get; set; }
+            public ObservableCollection<int> MyLineSizes { get; set; }
         }
 
+        /// <summary>
+        /// Package for tracking daily press operation. 
+        /// Each Presser instance represents one day on one press for a single part
+        /// </summary>
         public class Presser
         {
-            DateTime runDate { get; set; }//day
+            DateTime RunDate { get; set; }//day
             string LineNumber { get; set; }//Line
-            string PressNumber { get; set; }//press ID number
+            string PressNumber { get; set; }//press number
             string PartNo { get; set; }//what parts were made
-            int partCount { get; set; }//how many were made
-        }//tracks press runs(each one corresponds to one day/one run)
+            int PartCount { get; set; }//how many were made
+        }
 
+        /// <summary>
+        /// Package for individual press operators. 
+        /// This allows for roster display, as well as performance tracking. 
+        /// </summary>
         public class People
         {
             public string DisplayName { get; set; }//preferred display name
             public string FirstName { get; set; }//first name
             public string LastName { get; set; }//last name
-            public bool? isOperator { get; set; }//are they operator? maybe irrevelant 
-            public List<Presser> pastRun { get; set; }//list of past press runs
-            public DateTimeOffset hired { get; set; }//when were they hired
-        }//tracks people(with press runs)
+            public bool? IsOperator { get; set; }//are they operator? maybe irrevelant 
+            public List<Presser> PastRun { get; set; }//list of past press runs
+            public DateTimeOffset Hired { get; set; }//when were they hired
+        }
 
-        public class returnList
+        /// <summary>
+        /// Package for data operations in child programs
+        /// </summary>
+        public class ReturnList
         {
-            //public List<ObservableCollection<string>> Tits { get; set; }
             public List<People> PeopleList  { get; set; }//master source list
-            public List<List<People>> PeopleOnPress { get; set; }          //master press lists 
-            public ObservableCollection<string> lineNameList { get; set; }
-            //public ObservableCollection<string> Asses { get; set; }
-            
+            public List<List<People>> PeopleOnPress { get; set; }//master press lists 
+            public ObservableCollection<string> LineNameList { get; set; }
         }
 
         public MainPage()
@@ -144,7 +155,7 @@ namespace PeopleTracker
             if (Load)
             {
                 base.OnNavigatedTo(e);
-                returnList sendMeBack = e.Parameter as MainPage.returnList;
+                ReturnList sendMeBack = e.Parameter as MainPage.ReturnList;
                 PeopleOnPress = sendMeBack.PeopleOnPress;
                 PeopleList = sendMeBack.PeopleList;
                 UpdateLists();
@@ -210,8 +221,8 @@ namespace PeopleTracker
                     localFile = await localFolder.GetFileAsync(JsonFile);
                     JsonString = await FileIO.ReadTextAsync(localFile);
                     SaveData loadData = JsonConvert.DeserializeObject(JsonString, typeof(SaveData)) as SaveData;//loads the saved data file
-                    lineNames = loadData.myLineNames;
-                    lineSizes = loadData.myLineSizes;
+                    lineNames = loadData.MyLineNames;
+                    lineSizes = loadData.MyLineSizes;
                     SendToSetup();
                 }
             }
@@ -226,8 +237,8 @@ namespace PeopleTracker
             await Windows.Storage.FileIO.WriteTextAsync(newFile, json);
             
             SaveData thisData = new SaveData();
-            thisData.myLineNames = lineNames;
-            thisData.myLineSizes = lineSizes;
+            thisData.MyLineNames = lineNames;
+            thisData.MyLineSizes = lineSizes;
             json = JsonConvert.SerializeObject(thisData);
             newFile = await storageFolder.CreateFileAsync("LineData.json", CreationCollisionOption.ReplaceExisting);
             await Windows.Storage.FileIO.WriteTextAsync(newFile, json);
@@ -752,7 +763,7 @@ namespace PeopleTracker
                 lineNames[pressIndex] = PressDialog.GetPressBox();
                 int newSize = PressDialog.getNewSize();
                 lineTitleBlocks[pressIndex].Text = lineNames[pressIndex];
-                adjustGrid(pressIndex, newSize);
+                AdjustGrid(pressIndex, newSize);
                 lineSizes[pressIndex] = newSize;
             }
             ObservableCollection<string> thisList = peoplePlacer[pressIndex];
@@ -830,7 +841,7 @@ namespace PeopleTracker
             }
         } //sort diesetter list
 
-        private void adjustGrid(int pressIndex, int newSize)
+        private void AdjustGrid(int pressIndex, int newSize)
         {
             Grid adjustGrid = myPressGrids[pressIndex];
             List<TextBlock> theseLabels = pressLabels[pressIndex];
@@ -912,8 +923,8 @@ namespace PeopleTracker
 
         private void EditRoster(object sender, RoutedEventArgs e)
         {
-            returnList SendData = new returnList();
-            SendData.lineNameList = lineNames;
+            ReturnList SendData = new ReturnList();
+            SendData.LineNameList = lineNames;
             SendData.PeopleList = PeopleList;
             SendData.PeopleOnPress = PeopleOnPress;
             this.Background = this.Background;

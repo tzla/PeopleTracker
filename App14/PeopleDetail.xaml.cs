@@ -25,7 +25,7 @@ namespace PeopleTracker
         List<List<MainPage.People>> PeopleOnPress = new List<List<MainPage.People>>();
         List<MainPage.People> PeopleList = new List<MainPage.People>();
         List<MainPage.People> LittleList = new List<MainPage.People>();
-        MainPage.returnList sendMeBack = new MainPage.returnList();
+        MainPage.ReturnList sendMeBack = new MainPage.ReturnList();
 
         public ObservableCollection<string> FirstNamer = new ObservableCollection<string>();
         public ObservableCollection<string> LastNamer = new ObservableCollection<string>();
@@ -35,22 +35,23 @@ namespace PeopleTracker
         ListView thisLister = new ListView();
         List<string> Presses = new List<string>();
 
+
+        /// <summary>
+        /// This will initialize the page
+        /// </summary>
         public PeopleDetail()
         {
             this.InitializeComponent();
             this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Disabled;
-            //BigGrid.Visibility = Visibility.Collapsed;
             Date_Hired.MinYear = DateTimeOffset.Parse("Jan 1, 1970");
             Date_Hired.MaxYear = DateTimeOffset.Now;
             Boxes.ItemsSource = Presses;
-            //Date_Hired.MinYear = Convert.ToDateTime(1970);
-
-
         }
+
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            sendMeBack = e.Parameter as MainPage.returnList;
+            sendMeBack = e.Parameter as MainPage.ReturnList;
             PeopleOnPress = sendMeBack.PeopleOnPress;
             LittleList = sendMeBack.PeopleList;
             /*foreach(MainPage.People persons in LittleList)
@@ -64,13 +65,17 @@ namespace PeopleTracker
                     PeopleList.Add(persons);
                 }
             }*/
-            Presses = sendMeBack.lineNameList.ToList();
+            Presses = sendMeBack.LineNameList.ToList();
             Boxes.ItemsSource = Presses;
             this.Background = new SolidColorBrush(Windows.UI.Colors.LightGray);
             updater();
             
         }
 
+
+        /// <summary>
+        /// This takes the entered information and saves it to the master list
+        /// </summary>
         private async void SaveEdit(object sender, RoutedEventArgs e)
         {
             try
@@ -78,11 +83,10 @@ namespace PeopleTracker
                 PeopleList[thisLister.SelectedIndex].DisplayName = DisplayName1.Text;
                 PeopleList[thisLister.SelectedIndex].FirstName = First_Name1.Text;
                 PeopleList[thisLister.SelectedIndex].LastName = Last_Name1.Text;
-                PeopleList[thisLister.SelectedIndex].isOperator = OpCheck1.IsChecked;
-                PeopleList[thisLister.SelectedIndex].hired = (Date_Hired.Date);
+                PeopleList[thisLister.SelectedIndex].IsOperator = OpCheck1.IsChecked;
+                PeopleList[thisLister.SelectedIndex].Hired = (Date_Hired.Date);
             }
             catch { }
-            //SavePeople();
             PeopleList.Clear();
             updater();
         }
@@ -105,6 +109,10 @@ namespace PeopleTracker
             await Windows.Storage.FileIO.WriteTextAsync(newFile, json);
         }
 
+
+        /// <summary>
+        /// This parses the master data list into child lists for display and manipulation
+        /// </summary>
         private void updater()
         {
             if (!sorted)
@@ -124,7 +132,7 @@ namespace PeopleTracker
             HireDater.Clear(); FirstNamer.Clear(); LastNamer.Clear(); DisplayNamer.Clear();
             foreach (MainPage.People people in PeopleList)
             {
-                try { HireDater.Add(people.hired.ToString("MM-dd-yyyy")); } catch { }
+                try { HireDater.Add(people.Hired.ToString("MM-dd-yyyy")); } catch { }
                 try { FirstNamer.Add(people.FirstName); } catch { }
                 try { LastNamer.Add(people.LastName); } catch { }
                 try { DisplayNamer.Add(people.DisplayName); } catch { }
@@ -197,13 +205,13 @@ namespace PeopleTracker
             sorted = true;
             if (sort4)
             {
-                PeopleList = PeopleList.OrderByDescending(x => x.hired).ToList();
+                PeopleList = PeopleList.OrderByDescending(x => x.Hired).ToList();
                 sort4 = false;
                 HireDateSort.Content = "↑↓";
             }
             else
             {
-                PeopleList = PeopleList.OrderBy(x => x.hired).ToList();
+                PeopleList = PeopleList.OrderBy(x => x.Hired).ToList();
                 sort4 = true;
                 HireDateSort.Content = "↓↑";
             }
@@ -211,7 +219,7 @@ namespace PeopleTracker
             sorted = false;
         }
 
-        private void ass(object sender, SelectionChangedEventArgs e)
+        private void SelectedIndexing(object sender, SelectionChangedEventArgs e)
         {
             thisLister = sender as ListView;
             BigDisplayNameList.SelectedIndex = BigFirstNameList.SelectedIndex = BigHireDateList.SelectedIndex = BigLastNameList.SelectedIndex = thisLister.SelectedIndex;
@@ -220,8 +228,8 @@ namespace PeopleTracker
                 DisplayName1.Text = PeopleList[thisLister.SelectedIndex].DisplayName;
                 First_Name1.Text = PeopleList[thisLister.SelectedIndex].FirstName;
                 Last_Name1.Text = PeopleList[thisLister.SelectedIndex].LastName;
-                OpCheck1.IsChecked = PeopleList[thisLister.SelectedIndex].isOperator;
-                Date_Hired.Date = PeopleList[thisLister.SelectedIndex].hired;
+                OpCheck1.IsChecked = PeopleList[thisLister.SelectedIndex].IsOperator;
+                Date_Hired.Date = PeopleList[thisLister.SelectedIndex].Hired;
             }
             catch { }
         }

@@ -31,8 +31,8 @@ namespace PeopleTracker
             newPerson.DisplayName = DisplayName1.Text;
             newPerson.FirstName = First_Name1.Text;
             newPerson.LastName = Last_Name1.Text;
-            newPerson.hired = Date_Hired.Date;
-            newPerson.isOperator = OpCheck1.IsChecked;
+            newPerson.Hired = Date_Hired.Date;
+            newPerson.IsOperator = OpCheck1.IsChecked;
             return newPerson;
         }
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
