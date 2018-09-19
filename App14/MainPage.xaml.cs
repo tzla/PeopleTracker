@@ -72,6 +72,7 @@ namespace PeopleTracker
         bool first = true; //after loading, set to false 
         bool sorter1 = true; bool sorter2 = true; //sorting state of the two source lists
         bool Load = false; //prevents loading multiple times
+        bool ListToList = false;
 
         int lastIndex;//tracks the most recent edited list
         int dragItemLineTracker;
@@ -462,6 +463,7 @@ namespace PeopleTracker
             newList.PointerExited += ResetSelection;
             newList.DragItemsCompleted += DragTargetDone;
             newList.DragItemsStarting += DragTargetStart;
+           
             
             Style gridStyle = new Style();
             Setter thisSet = new Setter { Property = HeightProperty, Value = 25 };
@@ -813,6 +815,7 @@ namespace PeopleTracker
                 thisList.AllowDrop = false;
                 thisList.Background = new SolidColorBrush(Windows.UI.Colors.LightGray);
             }
+
             //mainSource = true;
         }//drag from source
 
@@ -934,6 +937,7 @@ namespace PeopleTracker
             else
             {
                 e.AcceptedOperation = DataPackageOperation.None;
+                this.Background = red;
             }
             DragList.Background = SB;
         }//dragged over target list event
@@ -975,20 +979,36 @@ namespace PeopleTracker
             //this.Background = red;
         }//resets selected item in lists
         
-        private async void  DragTargetStart(object sender, DragItemsStartingEventArgs e)
+        private async void DragTargetStart(object sender, DragItemsStartingEventArgs e)
         {
             string item = e.Items.First().ToString();
-            
             ListView targetList = sender as ListView;
             String ListName = targetList.Name;
             String[] GetName = ListName.Split('_');
             dragItemLineTracker = Convert.ToInt16(GetName[1]);
             dragItemPressTracker = peoplePlacer[dragItemLineTracker].IndexOf(item);
             cocker.Text = dragItemPressTracker.ToString() + " : " + dragItemLineTracker.ToString();
-            //peoplePlacer[dragItemLineTracker].IndexOf
 
-
-
+            var items = new StringBuilder();
+            foreach (var itemA in e.Items)
+            {
+                if (items.Length > 0) items.AppendLine();
+                items.Append(itemA as string);
+            }
+            // Set the content of the DataPackage
+            e.Data.SetText(items.ToString());
+            e.Data.RequestedOperation = DataPackageOperation.Move;
+            foreach (ListView eachList in pressLists)
+            {
+                eachList.AllowDrop = true;
+            }
+            Sources.AllowDrop = true;
+            ListToList = true;
+            foreach (ListView thisList in setterLists)
+            {
+                thisList.AllowDrop = false;
+                thisList.Background = new SolidColorBrush(Windows.UI.Colors.LightGray);
+            }
         }
 
 
@@ -1012,10 +1032,16 @@ namespace PeopleTracker
                 PeopleOnPress[targetLine] = targetedList;
             }
             UpdateLists();
+            ListToList = false;
+            foreach (ListView thisList in setterLists)
+            {
+                thisList.Background = LSB;
+            }
         }
 
         private async void TargetDrop(object sender, DragEventArgs e)
         {
+            
             // This test is in theory not needed as we returned DataPackageOperation.None if
             // the DataPackage did not contained text. However, it is always better if each
             // method is robust by itself
@@ -1024,9 +1050,10 @@ namespace PeopleTracker
             String[] GetName = ListName.Split('_');
             int pressIndex = Convert.ToInt16(GetName[1]);
             targetList.Background = LSB;
-
-            /*if (PeopleList[ListNo].Count < 4)
-            {*/
+            if (!ListToList)
+            {
+                /*if (PeopleList[ListNo].Count < 4)
+                {*/
                 if (e.DataView.Contains(StandardDataFormats.Text))
                 {
                     // We need to take a Deferral as we won't be able to confirm the end
@@ -1046,15 +1073,16 @@ namespace PeopleTracker
                         PeopleList.Remove(newPeople);
                         //operatorSource.Remove(item);
                         List<Button> thisButtonList = singleResetList[pressIndex];
-                        thisButtonList[peoplePlacer[pressIndex].Count-1].IsEnabled = true;
+                        thisButtonList[peoplePlacer[pressIndex].Count - 1].IsEnabled = true;
                         lastIndex = pressIndex;
                         UpdateLists();
                     }
-                e.AcceptedOperation = DataPackageOperation.Move;
-                targetList.SelectedIndex = -1;
-                def.Complete();
-                Saver();
+                    e.AcceptedOperation = DataPackageOperation.Move;
+                    targetList.SelectedIndex = -1;
+                    def.Complete();
+                    Saver();
                 }
+            }
             /*}*/
         }//item mover
 
