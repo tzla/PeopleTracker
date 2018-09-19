@@ -235,7 +235,7 @@ namespace PeopleTracker
             StorageFolder storageFolder = KnownFolders.MusicLibrary;
             StorageFile newFile = await storageFolder.CreateFileAsync("PeopleOnPress.json", CreationCollisionOption.ReplaceExisting);
             await Windows.Storage.FileIO.WriteTextAsync(newFile, json);
-            
+
             SaveData thisData = new SaveData();
             thisData.MyLineNames = lineNames;
             thisData.MyLineSizes = lineSizes;
@@ -321,8 +321,6 @@ namespace PeopleTracker
                 HorizontalAlignment = HorizontalAlignment.Center,
                 VerticalAlignment = VerticalAlignment.Center
             };
-            if (first) { lineNames.Add(newGrid.Name); }
-            else { lineNames[gridNumber] = newGrid.Name; }
             Grid.SetRow(titleBlock, 0);
             newGrid.Children.Add(titleBlock);
             Border thisInspecter = InspecterMaker(gridNumber);
@@ -549,8 +547,6 @@ namespace PeopleTracker
         {
             string gridName = lineNames[gridNumber];
             int pressSize = lineSizes[gridNumber];
-            if (first) { lineSizes.Add(pressSize); }
-            else { lineSizes[gridNumber] = pressSize; }
             ObservableCollection<string> thisLine = new ObservableCollection<string>();
             try
             {

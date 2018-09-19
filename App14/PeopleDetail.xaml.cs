@@ -16,12 +16,11 @@ using Windows.UI.Xaml.Navigation;
 namespace PeopleTracker
 {
     /// <summary>
-    /// This page shows detailed information on the press room employees
+    /// This page shows detailed information on the press room employees.
+    /// Edits, Additions, and Removals from the master list are done here. 
     /// </summary>
     public sealed partial class PeopleDetail : Page
     {
-        List<ObservableCollection<string>> PressPeople;
-
         List<List<MainPage.People>> PeopleOnPress = new List<List<MainPage.People>>();
         List<MainPage.People> PeopleList = new List<MainPage.People>();
         List<MainPage.People> LittleList = new List<MainPage.People>();
@@ -236,8 +235,14 @@ namespace PeopleTracker
 
         private void Boxes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            try { SelectedPressList.ItemsSource = PressPeople[Boxes.SelectedIndex]; } catch { }
-            this.Background = new SolidColorBrush(Windows.UI.Colors.AntiqueWhite);
+            List<MainPage.People> ThisLineList = new List<MainPage.People>();
+            ThisLineList = PeopleOnPress[Boxes.SelectedIndex];
+            List<string> ThisLineListDisplay = new List<string>();
+            foreach(MainPage.People thisPerson in ThisLineList)
+            {
+                ThisLineListDisplay.Add(thisPerson.DisplayName);
+            }
+            try { SelectedPressList.ItemsSource = ThisLineListDisplay; } catch { }
         }
 
         private async void AddPerson(object sender, RoutedEventArgs e)
