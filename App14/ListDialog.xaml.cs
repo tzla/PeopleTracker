@@ -107,20 +107,24 @@ namespace PeopleTracker
 
         private async Task<string> InputTextDialogAsync(string title)
         {
-            TextBox inputTextBox = new TextBox();
-            inputTextBox.AcceptsReturn = false;
-            inputTextBox.Height = 38;
-            inputTextBox.Background = new SolidColorBrush(Windows.UI.Colors.LightSteelBlue);
-            inputTextBox.BorderBrush = new SolidColorBrush(Windows.UI.Colors.SteelBlue);
-            inputTextBox.BorderThickness = new Thickness(3, 3, 3, 3);
-            inputTextBox.PlaceholderText = "Enter Name Here";
-            inputTextBox.PlaceholderForeground = new SolidColorBrush(Windows.UI.Colors.SteelBlue);
-            ContentDialog dialog = new ContentDialog();
-            dialog.Content = inputTextBox;
-            dialog.Title = title;
-            dialog.IsSecondaryButtonEnabled = true;
-            dialog.PrimaryButtonText = "Ok";
-            dialog.SecondaryButtonText = "Cancel";
+            TextBox inputTextBox = new TextBox
+            {
+                AcceptsReturn = false,
+                Height = 38,
+                Background = MainPage.LSB,
+                BorderBrush = MainPage.SB,
+                BorderThickness = MainPage.Border3,
+                PlaceholderText = "Enter Name Here",
+                PlaceholderForeground = MainPage.SB
+            };
+            ContentDialog dialog = new ContentDialog
+            {
+                Content = inputTextBox,
+                Title = title,
+                IsSecondaryButtonEnabled = true,
+                PrimaryButtonText = "OK",
+                SecondaryButtonText = "Cancel"
+            };
             if (await dialog.ShowAsync() == ContentDialogResult.Primary)
             {
                 string text = inputTextBox.Text;

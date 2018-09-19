@@ -62,16 +62,16 @@
             </Grid.ColumnDefinitions>
             <ScrollViewer x:Name="ElderScroller" Grid.ColumnSpan="8" HorizontalAlignment="Left" VerticalAlignment="Top" Width="500" Grid.Row="1" Margin="-1,0,0,0">
                 <Grid>
-                    <ListView x:Name="BigDisplayNameList" HorizontalAlignment="Left" VerticalAlignment="Center" Width="125" Margin="0,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="SelectedIndexing">
-                        
+                    <ListView x:Name="BigDisplayNameList" HorizontalAlignment="Left" VerticalAlignment="Center" Width="125" Margin="0,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="SelectedIndexing" MinHeight="300">
+
                     </ListView>
-                    <ListView x:Name="BigFirstNameList" HorizontalAlignment="Left" VerticalAlignment="Center" Width="125" Margin="125,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="SelectedIndexing">
-                        
+                    <ListView x:Name="BigFirstNameList" HorizontalAlignment="Left" VerticalAlignment="Center" Width="125" Margin="125,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="SelectedIndexing" MinHeight="300">
+
                     </ListView>
-                    <ListView x:Name="BigLastNameList" HorizontalAlignment="Left" VerticalAlignment="Center" Width="125" Margin="250,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="SelectedIndexing">
-                        
+                    <ListView x:Name="BigLastNameList" HorizontalAlignment="Left" VerticalAlignment="Center" Width="125" Margin="250,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="SelectedIndexing" MinHeight="300">
+
                     </ListView>
-                    <ListView x:Name="BigHireDateList" HorizontalAlignment="Left" VerticalAlignment="Center" Width="125" Margin="374,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="SelectedIndexing"/>
+                    <ListView x:Name="BigHireDateList" HorizontalAlignment="Left" VerticalAlignment="Center" Width="125" Margin="374,0,0,0" ScrollViewer.VerticalScrollBarVisibility="Disabled" SelectionChanged="SelectedIndexing" MinHeight="300"/>
                     <Border x:Name="B1" BorderBrush="SteelBlue" HorizontalAlignment="Left" Height="300" VerticalAlignment="Top" Width="125" BorderThickness="1,1,1,1" Margin="1,0,0,0"/>
                     <Border x:Name="B2" BorderBrush="SteelBlue" HorizontalAlignment="Left" Height="300" VerticalAlignment="Top" Width="125" BorderThickness="1,1,1,1" Margin="125.5,0,0,0"/>
                     <Border x:Name="B3" BorderBrush="SteelBlue" HorizontalAlignment="Left" Height="300" VerticalAlignment="Top" Width="125" BorderThickness="1,1,1,1" Margin="250,0,0,0"/>

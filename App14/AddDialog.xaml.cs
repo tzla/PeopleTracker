@@ -27,12 +27,14 @@ namespace PeopleTracker
 
         public MainPage.People GetNewPerson()
         {
-            MainPage.People newPerson = new MainPage.People();
-            newPerson.DisplayName = DisplayName1.Text;
-            newPerson.FirstName = First_Name1.Text;
-            newPerson.LastName = Last_Name1.Text;
-            newPerson.Hired = Date_Hired.Date;
-            newPerson.IsOperator = OpCheck1.IsChecked;
+            MainPage.People newPerson = new MainPage.People
+            {
+                DisplayName = DisplayName1.Text,
+                FirstName = First_Name1.Text,
+                LastName = Last_Name1.Text,
+                Hired = Date_Hired.Date,
+                IsOperator = OpCheck1.IsChecked
+            };
             return newPerson;
         }
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

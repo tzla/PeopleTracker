@@ -47,7 +47,7 @@ namespace PeopleTracker
             Boxes.ItemsSource = Presses;
         }
 
-        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
             sendMeBack = e.Parameter as MainPage.ReturnList;
@@ -75,7 +75,7 @@ namespace PeopleTracker
         /// <summary>
         /// This takes the entered information and saves it to the master list
         /// </summary>
-        private async void SaveEdit(object sender, RoutedEventArgs e)
+        private void SaveEdit(object sender, RoutedEventArgs e)
         {
             try
             {

@@ -162,7 +162,7 @@ namespace PeopleTracker
             }
         }
 
-            private void SendToSetup()
+        private void SendToSetup()
         {
             UpdateLists();
             Load = true;
@@ -223,10 +223,22 @@ namespace PeopleTracker
                     SaveData loadData = JsonConvert.DeserializeObject(JsonString, typeof(SaveData)) as SaveData;//loads the saved data file
                     lineNames = loadData.MyLineNames;
                     lineSizes = loadData.MyLineSizes;
-                    SendToSetup();
+                    
+                    
                 }
             }
             catch { }
+            if (PeopleOnPress == null)
+            {
+                PeopleOnPress = new List<List<People>>();
+                for (int i = 0; i < lineSizes.Count; i++)
+                {
+                    List<People> newList = new List<People>();
+                    PeopleOnPress.Add(newList);
+                }
+            }
+            SendToSetup();
+                
         }
 
         private async Task Saver()
@@ -236,16 +248,18 @@ namespace PeopleTracker
             StorageFile newFile = await storageFolder.CreateFileAsync("PeopleOnPress.json", CreationCollisionOption.ReplaceExisting);
             await Windows.Storage.FileIO.WriteTextAsync(newFile, json);
 
-            SaveData thisData = new SaveData();
-            thisData.MyLineNames = lineNames;
-            thisData.MyLineSizes = lineSizes;
+            SaveData thisData = new SaveData
+            {
+                MyLineNames = lineNames,
+                MyLineSizes = lineSizes
+            };
             json = JsonConvert.SerializeObject(thisData);
             newFile = await storageFolder.CreateFileAsync("LineData.json", CreationCollisionOption.ReplaceExisting);
             await Windows.Storage.FileIO.WriteTextAsync(newFile, json);
 
             json = JsonConvert.SerializeObject(PeopleList);
             newFile = await storageFolder.CreateFileAsync("PeopleList.json", CreationCollisionOption.ReplaceExisting);
-            //await Windows.Storage.FileIO.WriteTextAsync(newFile, json);
+            await Windows.Storage.FileIO.WriteTextAsync(newFile, json);
 
         }
 
@@ -310,8 +324,7 @@ namespace PeopleTracker
 
         private void TitleRowSetup(int gridNumber)
         {
-            RowDefinition titleRow = new RowDefinition();
-            titleRow.Height = new GridLength(40.0, GridUnitType.Pixel);
+            RowDefinition titleRow = new RowDefinition { Height = new GridLength(40.0, GridUnitType.Pixel) };
             newGrid.RowDefinitions.Add(titleRow);
             TextBlock titleBlock = new TextBlock
             {
@@ -331,15 +344,15 @@ namespace PeopleTracker
 
         private void DefineColumns()
         {
-            ColumnDefinition col1 = new ColumnDefinition();
-            col1.Width = new GridLength(65.0, GridUnitType.Pixel);
+            ColumnDefinition col1 = new ColumnDefinition { Width = new GridLength(65.0, GridUnitType.Pixel) };
             newGrid.ColumnDefinitions.Add(col1);
-            ColumnDefinition col2 = new ColumnDefinition();
-            col2.Width = new GridLength(125.0, GridUnitType.Pixel);
-            col2.MinWidth = 100;
+            ColumnDefinition col2 = new ColumnDefinition
+            {
+                Width = new GridLength(125.0, GridUnitType.Pixel),
+                MinWidth = 100
+            };
             newGrid.ColumnDefinitions.Add(col2);
-            ColumnDefinition col3 = new ColumnDefinition();
-            col3.Width = new GridLength(25, GridUnitType.Pixel);
+            ColumnDefinition col3 = new ColumnDefinition { Width = new GridLength(25, GridUnitType.Pixel) };
             newGrid.ColumnDefinitions.Add(col3);
         }//defines standard columns for each line object
 
@@ -348,16 +361,14 @@ namespace PeopleTracker
             RowDefinition newRow = new RowDefinition();
             for (int i = 0; i < pressSize; i++)
             {
-                newRow = new RowDefinition(); //press rows
-                newRow.Height = new GridLength(25.0, GridUnitType.Pixel);
+                newRow = new RowDefinition {Height = new GridLength(25.0, GridUnitType.Pixel)}; //press rows
                 newGrid.RowDefinitions.Add(newRow);
             }
-            newRow = new RowDefinition(); //die setter row
-            newRow.Height = new GridLength(30.0, GridUnitType.Pixel);
+
+            newRow = new RowDefinition { Height = new GridLength(30.0, GridUnitType.Pixel) }; //die setter row
             newGrid.RowDefinitions.Add(newRow);
 
-            newRow = new RowDefinition(); //reset button row
-            newRow.Height = new GridLength(35.0, GridUnitType.Pixel);
+            newRow = new RowDefinition {Height = new GridLength(35.0, GridUnitType.Pixel)}; //reset button row
             newGrid.RowDefinitions.Add(newRow);
         }//defines standard rows for each line object
 
@@ -502,7 +513,6 @@ namespace PeopleTracker
                 }
             }
             catch { }
-            this.Background = this.Background;
             Sources.ItemsSource = operatorSource;
             track = 0;
             foreach(ListView thisView in pressLists)
@@ -510,7 +520,8 @@ namespace PeopleTracker
                 thisView.ItemsSource = peoplePlacer[track];
                 track++;
             }
-            Saver();
+            if (!first) { Saver(); }
+            
 
         }//updates the lists
 
@@ -648,16 +659,20 @@ namespace PeopleTracker
             if (first) { dieSetterResetList.Add(thisResetButton2); }
             else { dieSetterResetList[gridNumber] = thisResetButton2; }
 
-            ColumnDefinition col = new ColumnDefinition();
-            col.MinWidth = 200;
-            col.Width = new GridLength(230, GridUnitType.Pixel);
+            ColumnDefinition col = new ColumnDefinition
+            {
+                MinWidth = 200,
+                Width = new GridLength(230, GridUnitType.Pixel)
+            };
             if (first)
             {
                 for (int x = 0; x < 3; x++)
                 {
-                    RowDefinition roe = new RowDefinition();
-                    roe.Height = new GridLength(250, GridUnitType.Pixel);
-                    roe.MinHeight = 250;
+                    RowDefinition roe = new RowDefinition
+                    {
+                        Height = new GridLength(250, GridUnitType.Pixel),
+                        MinHeight = 250
+                    };
                     piss.RowDefinitions.Add(roe);
                 }
             }
@@ -911,13 +926,14 @@ namespace PeopleTracker
 
         private void EditRoster(object sender, RoutedEventArgs e)
         {
-            ReturnList SendData = new ReturnList();
-            SendData.LineNameList = lineNames;
-            SendData.PeopleList = PeopleList;
-            SendData.PeopleOnPress = PeopleOnPress;
+            ReturnList SendData = new ReturnList
+            {
+                LineNameList = lineNames,
+                PeopleList = PeopleList,
+                PeopleOnPress = PeopleOnPress
+            };
             this.Background = this.Background;
             this.Frame.Navigate(typeof(PeopleDetail),SendData);
-            //saver();
         }//edit souce list method
 
         private async void EditRoster2(object sender, RoutedEventArgs e)
