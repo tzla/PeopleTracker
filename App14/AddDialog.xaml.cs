@@ -25,7 +25,7 @@ namespace PeopleTracker
             this.HorizontalAlignment = HorizontalAlignment.Center;
         }
 
-        public MainPage.People getNewPerson()
+        public MainPage.People GetNewPerson()
         {
             MainPage.People newPerson = new MainPage.People();
             newPerson.DisplayName = DisplayName1.Text;

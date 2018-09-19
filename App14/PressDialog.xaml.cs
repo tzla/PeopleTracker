@@ -38,7 +38,7 @@ namespace PeopleTracker
         {
             return NameBox.Text;
         }
-        public int getNewSize()
+        public int GetNewSize()
         {
             return NumberBox.SelectedIndex;
         }

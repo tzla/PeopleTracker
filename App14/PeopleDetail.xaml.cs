@@ -68,7 +68,7 @@ namespace PeopleTracker
             Presses = sendMeBack.LineNameList.ToList();
             Boxes.ItemsSource = Presses;
             this.Background = new SolidColorBrush(Windows.UI.Colors.LightGray);
-            updater();
+            Updater();
             
         }
 
@@ -88,7 +88,7 @@ namespace PeopleTracker
             }
             catch { }
             PeopleList.Clear();
-            updater();
+            Updater();
         }
 
         private void BackToMain(object sender, RoutedEventArgs e)
@@ -113,7 +113,7 @@ namespace PeopleTracker
         /// <summary>
         /// This parses the master data list into child lists for display and manipulation
         /// </summary>
-        private void updater()
+        private void Updater()
         {
             if (!sorted)
             {
@@ -161,7 +161,7 @@ namespace PeopleTracker
                 sort1 = true;
                 DisplayNameSort.Content = "↓↑";
             }
-            updater();
+            Updater();
             sorted = false;
         }
         private void FirstNameSorter(object sender, RoutedEventArgs e)
@@ -179,7 +179,7 @@ namespace PeopleTracker
                 sort2 = true;
                 FirstNameSort.Content = "↓↑";
             }
-            updater();
+            Updater();
             sorted = false;
         }
         private void LastNameSorter(object sender, RoutedEventArgs e)
@@ -197,7 +197,7 @@ namespace PeopleTracker
                 sort3 = true;
                 LastNameSort.Content = "↓↑";
             }
-            updater();
+            Updater();
             sorted = false;
         }
         private void DateSorter(object sender, RoutedEventArgs e)
@@ -215,7 +215,7 @@ namespace PeopleTracker
                 sort4 = true;
                 HireDateSort.Content = "↓↑";
             }
-            updater();
+            Updater();
             sorted = false;
         }
 
@@ -246,10 +246,10 @@ namespace PeopleTracker
             ContentDialogResult result = await addPerson.ShowAsync();
             if (result == ContentDialogResult.Primary)
             {
-                MainPage.People newPerson = addPerson.getNewPerson();
+                MainPage.People newPerson = addPerson.GetNewPerson();
                 LittleList.Add(newPerson);
                 PeopleList.Clear();
-                updater();
+                Updater();
             }
         }
     }

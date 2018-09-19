@@ -249,7 +249,7 @@ namespace PeopleTracker
 
         }
 
-        private Border inspecterMaker(int gridNumber)
+        private Border InspecterMaker(int gridNumber)
         {
             Border inspectBorder = new Border
             {
@@ -281,14 +281,14 @@ namespace PeopleTracker
                 Source = bitmap
             };
             iconic.Tapped += ViewPress;
-            iconic.PointerEntered += iconEnter;
-            iconic.PointerExited += iconExit;
+            iconic.PointerEntered += IconEnter;
+            iconic.PointerExited += IconExit;
             inspectBorder.Child = iconic;
             return inspectBorder;
 
         }//makes magnifying glass buttons
 
-        private void iconEnter(object sender, PointerRoutedEventArgs e)
+        private void IconEnter(object sender, PointerRoutedEventArgs e)
         {
             Image senderButton = sender as Image;
             String buttonName = senderButton.Name;
@@ -298,7 +298,7 @@ namespace PeopleTracker
             borderList[pressIndex].BorderBrush = SLB;
         }//highlights the focused icon
 
-        private void iconExit(object sender, PointerRoutedEventArgs e)
+        private void IconExit(object sender, PointerRoutedEventArgs e)
         {
             Image senderButton = sender as Image;
             String buttonName = senderButton.Name;
@@ -308,7 +308,7 @@ namespace PeopleTracker
             borderList[pressIndex].BorderBrush = SB;
         }//unhighlights the focused icon
 
-        private void titleRowSetup(int gridNumber)
+        private void TitleRowSetup(int gridNumber)
         {
             RowDefinition titleRow = new RowDefinition();
             titleRow.Height = new GridLength(40.0, GridUnitType.Pixel);
@@ -325,13 +325,13 @@ namespace PeopleTracker
             else { lineNames[gridNumber] = newGrid.Name; }
             Grid.SetRow(titleBlock, 0);
             newGrid.Children.Add(titleBlock);
-            Border thisInspecter = inspecterMaker(gridNumber);
+            Border thisInspecter = InspecterMaker(gridNumber);
             Grid.SetColumn(thisInspecter, 1);
             newGrid.Children.Add(thisInspecter);
             lineTitleBlocks.Add(titleBlock);
         }//sets up title row, add view button
 
-        private void defineColumns()
+        private void DefineColumns()
         {
             ColumnDefinition col1 = new ColumnDefinition();
             col1.Width = new GridLength(65.0, GridUnitType.Pixel);
@@ -345,7 +345,7 @@ namespace PeopleTracker
             newGrid.ColumnDefinitions.Add(col3);
         }//defines standard columns for each line object
 
-        private void defineRows(int pressSize)
+        private void DefineRows(int pressSize)
         {
             RowDefinition newRow = new RowDefinition();
             for (int i = 0; i < pressSize; i++)
@@ -363,7 +363,7 @@ namespace PeopleTracker
             newGrid.RowDefinitions.Add(newRow);
         }//defines standard rows for each line object
 
-        private void setupLabelColumn(int pressSize)
+        private void SetupLabelColumn(int pressSize)
         {
             List<TextBlock> thisLabelList = new List<TextBlock>();
             for (int i = 0; i < pressSize + 1; i++)
@@ -392,7 +392,7 @@ namespace PeopleTracker
             pressLabels.Add(thisLabelList);
         }//places labels for the lists
 
-        private Button setupResetButton(int pressSize,int gridNumber)
+        private Button SetupResetButton(int pressSize,int gridNumber)
         {
             Button resetButton = new Button
             {
@@ -406,7 +406,7 @@ namespace PeopleTracker
                 FontSize = 10,
             };
             Canvas.SetZIndex(resetButton, 2);
-            resetButton.Click += resetClick;
+            resetButton.Click += ResetClick;
             Grid.SetRow(resetButton, pressSize + 2);
             Grid.SetColumn(resetButton, 0);
             Grid.SetColumnSpan(resetButton, 3);
@@ -441,7 +441,7 @@ namespace PeopleTracker
             newList.DragOver += TargetDragOver;
             newList.DragLeave += TargetDragLeave;
             newList.Drop += TargetDrop;
-            newList.PointerExited += resetSelection;
+            newList.PointerExited += ResetSelection;
             
             Style gridStyle = new Style();
             Setter thisSet = new Setter { Property = HeightProperty, Value = 25 };
@@ -516,7 +516,7 @@ namespace PeopleTracker
 
         }//updates the lists
 
-        private List<Button> littleButtonMaker(int gridNumber, int pressSize, int thisLineCount)
+        private List<Button> LittleButtonMaker(int gridNumber, int pressSize, int thisLineCount)
         {
             List<Button> thisButtonLine = new List<Button>();
             for (int i = 0; i < pressSize; i++)
@@ -532,7 +532,7 @@ namespace PeopleTracker
                     Margin = RightMargin,
                     Foreground = red
                 };
-                thisResetButton.Click += singleReset;
+                thisResetButton.Click += SingleReset;
                 Grid.SetRow(thisResetButton, i + 1);
                 Grid.SetColumn(thisResetButton, 2);
                 newGrid.Children.Add(thisResetButton);
@@ -570,10 +570,10 @@ namespace PeopleTracker
                 Margin = Margins2
             };
             
-            titleRowSetup(gridNumber);
-            defineColumns();
-            defineRows(pressSize);
-            setupLabelColumn(pressSize);
+            TitleRowSetup(gridNumber);
+            DefineColumns();
+            DefineRows(pressSize);
+            SetupLabelColumn(pressSize);
             Loader(gridNumber);
             ListView[] newLists =  ListMaker(gridNumber,pressSize);
             ListView newList = newLists[0];
@@ -621,13 +621,13 @@ namespace PeopleTracker
 
 
             if (pressSize > 0) { newGrid.Children.Add(newList); }
-            Button resetButton = setupResetButton(pressSize, gridNumber);
+            Button resetButton = SetupResetButton(pressSize, gridNumber);
 
             if (first) { resetLists.Add(resetButton); }
             else { resetLists[gridNumber] = resetButton; }
              newGrid.Children.Add(resetButton);
 
-            List<Button> thisButtonLine = littleButtonMaker(gridNumber, pressSize, peoplePlacer[gridNumber].Count);
+            List<Button> thisButtonLine = LittleButtonMaker(gridNumber, pressSize, peoplePlacer[gridNumber].Count);
 
 
             if (first) { singleResetList.Add(thisButtonLine); }
@@ -643,7 +643,7 @@ namespace PeopleTracker
                 Margin = RightMargin,
                 Foreground = red
             };
-            thisResetButton2.Click += singleResetDS;
+            thisResetButton2.Click += SingleResetDS;
 
             Grid.SetRow(thisResetButton2, pressSize + 1);
             Grid.SetColumn(thisResetButton2, 2);
@@ -675,7 +675,7 @@ namespace PeopleTracker
             //gridNumber++;
         }//constructs grids for each press
 
-        private void resetClick(object sender, RoutedEventArgs e)
+        private void ResetClick(object sender, RoutedEventArgs e)
         {
             Button senderButton = sender as Button;
             String buttonName = senderButton.Name;
@@ -703,7 +703,7 @@ namespace PeopleTracker
 
         }//big reset button
 
-        private void singleReset(object sender, RoutedEventArgs e)
+        private void SingleReset(object sender, RoutedEventArgs e)
         {
             Button senderButton = sender as Button;
             String buttonName = senderButton.Name;
@@ -715,21 +715,13 @@ namespace PeopleTracker
             PeopleList.Add(removedPerson);
             thisLinePeople.Remove(removedPerson);
             PeopleOnPress[pressIndex] = thisLinePeople;
-
-            //ObservableCollection<string> resetList = pressLists[pressIndex].ItemsSource as ObservableCollection<string>;
-            
-            //operatorSource.Add(resetList[specificPress]);
-            
-            //resetList.RemoveAt(specificPress);
-            
             List<Button> thisButtonList = singleResetList[pressIndex];
             thisButtonList[peoplePlacer[pressIndex].Count-1].IsEnabled = false;
             lastIndex = pressIndex;
             UpdateLists();
-
         }//individual x's
 
-        private void singleResetDS(object sender, RoutedEventArgs e)
+        private void SingleResetDS(object sender, RoutedEventArgs e)
         {
             Button senderButton = sender as Button;
             String buttonName = senderButton.Name;
@@ -761,7 +753,7 @@ namespace PeopleTracker
             if (result == ContentDialogResult.Primary)
             {
                 lineNames[pressIndex] = PressDialog.GetPressBox();
-                int newSize = PressDialog.getNewSize();
+                int newSize = PressDialog.GetNewSize();
                 lineTitleBlocks[pressIndex].Text = lineNames[pressIndex];
                 AdjustGrid(pressIndex, newSize);
                 lineSizes[pressIndex] = newSize;
@@ -943,7 +935,7 @@ namespace PeopleTracker
             }
         }
 
-        private void resetSelection(object sender, PointerRoutedEventArgs e)
+        private void ResetSelection(object sender, PointerRoutedEventArgs e)
         {
             ListView senderList = sender as ListView;
             senderList.SelectedIndex = -1;
